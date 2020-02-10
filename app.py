@@ -1,11 +1,19 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from db import request_data
+from forms import RideCreationForm
 app = Flask(__name__)
+app.config['SECRET_KEY'] = ''
 
 
 @app.route("/")
 def hello():
     return "Hello, Welcome to the Queueing App"
+
+
+@app.route("/customerapp")
+def customer_app():
+    form = RideCreationForm()
+    return render_template('customerapp.html', title='Customer App', form=form)
 
 
 @app.route('/customer/request', methods=['POST'])
@@ -75,9 +83,13 @@ def select_request():
 
 
 @app.route('/request', methods=['POST'])
-def waiting_requests():
+def all_requests():
     """
-    Lists all waiting requests
-    :return: Requests in the 'waiting' state
+    Lists all requests
+    :return: Lists all requests
     """
     return {'requests': request_data.get_all_requests()}, 200
+
+
+if __name__ == "__main__":
+    app.run()
