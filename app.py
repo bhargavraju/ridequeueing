@@ -2,7 +2,7 @@ from flask import Flask, request, render_template
 from db import request_data
 from forms import RideCreationForm
 app = Flask(__name__)
-app.config['SECRET_KEY'] = ''
+app.config['SECRET_KEY'] = '4938e3e615d4586db9e279bd81556dbc804272589d6bf7b542444ddad381e5df'
 
 
 @app.route("/")
@@ -10,23 +10,33 @@ def hello():
     return "Hello, Welcome to the Queueing App"
 
 
-@app.route("/customerapp")
+@app.route("/customerapp", methods=['GET', 'POST'])
 def customer_app():
     form = RideCreationForm()
-    return render_template('customerapp.html', title='Customer App', form=form)
+    if request.method == 'POST':
+        inputs = form.data
+        customer_id = inputs['customer_id']
+        request_data.create_request(customer_id)
+        return "Request for a ride created successfully", 201
+    elif request.method == 'GET':
+        return render_template('customerapp.html', title='Customer App', form=form)
 
 
-@app.route('/customer/request', methods=['POST'])
-def create_request():
-    """
-    Creates a new ride request by a customer
-    :param: customer_id: str
-    :return: Success Message
-    """
-    inputs = request.get_json(force=True)
-    customer_id = inputs['customer_id']
-    request_data.create_request(customer_id)
-    return "Request for a ride created successfully", 201
+# @app.route('/customer/request', methods=['POST'])
+# def create_request():
+#     """
+#     Creates a new ride request by a customer
+#     :param: customer_id: str
+#     :return: Success Message
+#     """
+#     inputs = request.get_json(force=True)
+#     customer_id = inputs['customer_id']
+#     request_data.create_request(customer_id)
+#     return "Request for a ride created successfully", 201
+
+@app.route("/driverapp", methods=['GET', 'POST'])
+def driver_app():
+    return render_template('driverapp.html', title='Driver App')
 
 
 @app.route('/request/waiting', methods=['POST'])

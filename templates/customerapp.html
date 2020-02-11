@@ -2,17 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Customer App</title>
+    <title>{{ title }}</title>
     <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/customerapp.css') }}">
 </head>
 <body>
     <div class="container">
-        <form method="post" action="{{ url_for('customer/request') }}">
+        <form method="post" action="">
             <p>
-                {{ form.customer_id.label }} \t {{ form.customer_id(size=25) }}
+                {{ form.customer_id.label }} {{ form.customer_id(size=25) }}
             </p>
             <p> {{ form.submit() }}</p>
-
         </form>
     </div>
 </body>
