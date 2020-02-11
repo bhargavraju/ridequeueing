@@ -10,6 +10,11 @@
     <button type="button" onclick="window.location.href='{{ url_for('driver_app', driver_id=driver_id) }}';">Refresh</button>
     <div>
         <h3>Waiting</h3>
+        {% if error %}
+            <p>Request no longer available</p>
+        {% else %}
+            <p></p>
+        {% endif %}
         <div class="row">
             {% for request in waiting %}
                 <div class="column">
@@ -19,6 +24,9 @@
                             <li>Customer Id: {{ request[2] }}</li>
                             <li>{{ request[3] | timeago}}</li>
                         </ul>
+                        <form method="post" action="">
+                            <button type="submit" name="accept" value="{{  request[0]  }}">Select</button>
+                        </form>
                     </div>
                 </div>
             {% endfor %}
