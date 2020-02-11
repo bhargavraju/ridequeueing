@@ -1,7 +1,7 @@
 DROP DATABASE IF EXISTS app_db;
 CREATE DATABASE IF NOT EXISTS app_db;
 USE app_db;
-CREATE TABLE invoice (
+CREATE TABLE requests (
     request_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     driver_id INT DEFAULT NULL,
     customer_id INT NOT NULL,
