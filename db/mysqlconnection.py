@@ -1,6 +1,12 @@
 from mysql.connector import pooling
 import os
 
+# username: bfb9722e26306a
+
+# password: 2d633907
+
+# host_name: us-cdbr-iron-east-04.cleardb.net
+
 host_name = os.environ.get('HOST_NAME', 'localhost')
 db_name = os.environ.get('DB_NAME', 'app_db')
 db_user = os.environ.get('DB_USER', 'root')
@@ -62,10 +68,8 @@ if __name__ == '__main__':
     # cursor = cnx.cursor()
     # import datetime
     # now = datetime.datetime.now()
-    # now = now.strftime('%Y-%m-%d %H:%M:%S')
-    # query = """select * from requests where (driver_id={}) and ("{}" > completed)""". \
-    #     format(1, now)
+    # query = """insert into requests (customer_id, request_time) VALUES ({}, "{}")""".format(5, now)
     # cursor.execute(query)
-    # sql_result = cursor.fetchall()
+    # cnx.commit()
     # cnx.close()
     pass

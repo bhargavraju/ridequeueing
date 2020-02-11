@@ -9,7 +9,8 @@ def get_request_entry(request_id):
 
 
 def create_request(customer_id):
-    query = """insert into requests (customer_id) VALUES ({})""".format(customer_id)
+    now = datetime.datetime.now()
+    query = """insert into requests (customer_id, request_time) VALUES ({}, "{}")""".format(customer_id, now)
     execute_modify_query(query)
 
 

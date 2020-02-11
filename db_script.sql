@@ -5,7 +5,7 @@ CREATE TABLE requests (
     request_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     driver_id INT DEFAULT NULL,
     customer_id INT NOT NULL,
-    request_time DATETIME NOT NULL DEFAULT now(),
+    request_time DATETIME NOT NULL,
     picked_up DATETIME DEFAULT NULL,
     completed DATETIME DEFAULT NULL
     );
