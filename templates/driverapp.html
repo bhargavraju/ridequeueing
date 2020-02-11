@@ -7,7 +7,28 @@
 </head>
 <body>
     <h2>Welcome to Driver App</h2>
-    <button type="button" onclick="window.location.href='{{ url_for( 'driver_app' ) }}';">Refresh</button>
-
+    <button type="button" onclick="window.location.href='{{ url_for('driver_app', driver_id=driver_id) }}';">Refresh</button>
+    <div>
+        <h3>Waiting</h3>
+        <div class="row">
+            {% for request in waiting %}
+                <div class="column">
+                    <div class="card">
+                        <ul>
+                            <li>Request Id: {{ request[0] }}</li>
+                            <li>Customer Id: {{ request[2] }}</li>
+                            <li>{{ request[3] | timeago}}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div>
+        <h3>Ongoing</h3>
+    </div>
+    <div>
+        <h3>Completed</h3>
+    </div>
 </body>
 </html>
