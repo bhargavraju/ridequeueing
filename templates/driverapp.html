@@ -26,9 +26,38 @@
     </div>
     <div>
         <h3>Ongoing</h3>
+        <div class="row">
+            {% for request in ongoing %}
+                <div class="column">
+                    <div class="card">
+                        <ul>
+                            <li>Request Id: {{ request[0] }}</li>
+                            <li>Customer Id: {{ request[2] }}</li>
+                            <li>Request: {{ request[3] | timeago}}</li>
+                            <li>Picked Up: {{ request[4] | timeago}}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     <div>
         <h3>Completed</h3>
+        <div class="row">
+            {% for request in completed %}
+                <div class="column">
+                    <div class="card">
+                        <ul>
+                            <li>Request Id: {{ request[0] }}</li>
+                            <li>Customer Id: {{ request[2] }}</li>
+                            <li>Request: {{ request[3] | timeago}}</li>
+                            <li>Picked Up: {{ request[4] | timeago}}</li>
+                            <li>Completed: {{ request[5] | timeago}}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 </body>
 </html>
