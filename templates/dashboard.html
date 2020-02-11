@@ -2,9 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>{{ title }}</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/customerapp.css') }}">
 </head>
 <body>
     <h2>Welcome to Dashboard!</h2>
+    <button type="button" onclick="window.location.href='{{ url_for('dashboard') }}';">Refresh</button>
+    <div class="row">
+        {% for request in requests %}
+            <div class="column">
+                <div class="card">
+                    <ul>
+                        <li>Request Id: {{ request[0] }}</li>
+                        <li>Customer Id: {{ request[2] }}</li>
+                        <li>Time Elapsed: {{ request[3] | timeago}}</li>
+                        <li>Status: {{ request | status}}</li>
+                        <li>Driver: {{ request[1] }}</li>
+                    </ul>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
