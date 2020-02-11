@@ -1,4 +1,4 @@
-from mysql.connector import pooling
+from mysql.connector import pooling, connect
 import os
 
 # username: bfb9722e26306a
@@ -32,16 +32,22 @@ class MySQLConnection(metaclass=Singleton):
         self.user = db_user
         self.passwd = db_pass
         self.db = db_name
-        self.connection_pool = pooling.MySQLConnectionPool(pool_name="conn_pool",
-                                                           pool_size=5,
-                                                           pool_reset_session=True,
-                                                           host=self.host,
-                                                           database=self.db,
-                                                           user=self.user,
-                                                           password=self.passwd)
+        # self.connection_pool = pooling.MySQLConnectionPool(pool_name="conn_pool",
+        #                                                    pool_size=5,
+        #                                                    pool_reset_session=True,
+        #                                                    host=self.host,
+        #                                                    database=self.db,
+        #                                                    user=self.user,
+        #                                                    password=self.passwd)
 
     def get_connection(self):
-        return self.connection_pool.get_connection()
+        db_connection = connect(
+            host=self.host,
+            user=self.user,
+            password=self.passwd,
+            database=self.db
+        )
+        return db_connection
 
 
 def execute_read_query(query):
