@@ -12,8 +12,6 @@ def hello():
 
 
 def smooth_timedelta(dt_obj):
-    """Convert a datetime.timedelta object into Days, Hours, Minutes, Seconds."""
-    # dt_obj = datetime.datetime.strptime(datetimestr, '%Y-%m-%d %H:%M:%S')
     now = datetime.datetime.now()
     diff = now-dt_obj
     secs = diff.total_seconds()
@@ -39,7 +37,18 @@ def smooth_timedelta(dt_obj):
     return timetot
 
 
+def status_calculator(req):
+    if req[4] is None:
+        return 'Waiting'
+    now = datetime.datetime.now()
+    if req[4] <= now < req[5]:
+        return 'Ongoing'
+    if req[5] <= now:
+        return 'Completed'
+
+
 app.jinja_env.filters['timeago'] = smooth_timedelta
+app.jinja_env.filters['status'] = status_calculator
 
 
 @app.route("/customerapp", methods=['GET', 'POST'])
@@ -135,6 +144,12 @@ def all_requests():
     :return: Lists all requests
     """
     return {'requests': request_data.get_all_requests()}, 200
+
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    requests = request_data.get_all_requests()
+    return render_template('dashboard.html', title='Dashboard', requests=requests)
 
 
 if __name__ == "__main__":
