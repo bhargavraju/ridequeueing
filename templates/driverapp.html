@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/driverapp.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/customerapp.css') }}">
 </head>
 <body>
     <h2>Welcome to Driver App</h2>
+    <button type="button" onclick="window.location.href='{{ url_for( 'driver_app' ) }}';">Refresh</button>
+
 </body>
 </html>
