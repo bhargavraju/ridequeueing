@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, url_for
 from db import request_data
 from forms import RideCreationForm
+import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '4938e3e615d4586db9e279bd81556dbc804272589d6bf7b542444ddad381e5df'
 
@@ -8,6 +9,37 @@ app.config['SECRET_KEY'] = '4938e3e615d4586db9e279bd81556dbc804272589d6bf7b54244
 @app.route("/")
 def hello():
     return "Hello, Welcome to the Queueing App"
+
+
+def smooth_timedelta(dt_obj):
+    """Convert a datetime.timedelta object into Days, Hours, Minutes, Seconds."""
+    # dt_obj = datetime.datetime.strptime(datetimestr, '%Y-%m-%d %H:%M:%S')
+    now = datetime.datetime.now()
+    diff = now-dt_obj
+    secs = diff.total_seconds()
+    timetot = ""
+    if secs > 86400:  # 60sec * 60min * 24hrs
+        days = secs // 86400
+        timetot += "{} days".format(int(days))
+        secs = secs - days*86400
+
+    if secs > 3600:
+        hrs = secs // 3600
+        timetot += " {} hours".format(int(hrs))
+        secs = secs - hrs*3600
+
+    if secs > 60:
+        mins = secs // 60
+        timetot += " {} minutes".format(int(mins))
+        secs = secs - mins*60
+
+    if secs > 0:
+        timetot += " {} seconds".format(int(secs))
+    timetot += " ago"
+    return timetot
+
+
+app.jinja_env.filters['timeago'] = smooth_timedelta
 
 
 @app.route("/customerapp", methods=['GET', 'POST'])
@@ -34,9 +66,13 @@ def customer_app():
 #     request_data.create_request(customer_id)
 #     return "Request for a ride created successfully", 201
 
-@app.route("/driverapp", methods=['GET', 'POST'])
-def driver_app():
-    return render_template('driverapp.html', title='Driver App')
+@app.route("/driverapp/<driver_id>", methods=['GET', 'POST'])
+def driver_app(driver_id):
+    waiting = request_data.get_waiting_requests()
+    ongoing = request_data.get_ongoing_requests(driver_id)
+    completed = request_data.get_completed_requests(driver_id)
+    return render_template('driverapp.html', title='Driver App',
+                           driver_id=driver_id, waiting=waiting, ongoing=ongoing, completed=completed)
 
 
 @app.route('/request/waiting', methods=['POST'])
